@@ -1,0 +1,52 @@
+{
+  "name": "slate-plugins",
+  "version": "0.0.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-react": "^7.7.0",
+    "@babel/preset-stage-0": "^7.0.0",
+    "babel-eslint": "^10.0.3",
+    "babel-plugin-prismjs": "^1.1.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.16.0",
+    "immutable": "^4.0.0-rc.12",
+    "lerna": "^3.18.4",
+    "prettier": "^1.19.1",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "rollup": "^1.26.5",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-less": "^1.1.2",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-globals": "^1.4.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-uglify": "^6.0.3",
+    "roolup": "^1.0.4",
+    "slate": "^0.47.9",
+    "slate-react": "^0.22.10"
+  },
+  "scripts": {
+    "start": "cd playground && yarn react-scripts start",
+    "pkgcreate": "yarn lerna create",
+    "pkgadd": "yarn lerna add",
+    "bootstrap": "yarn lerna bootstrap",
+    "rootdevadd": "yarn add -D --ignore-workspace-root-check",
+    "build:rollup": "rollup --config ./support/config.js"
+  }
+}

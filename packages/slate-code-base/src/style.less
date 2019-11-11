@@ -1,0 +1,81 @@
+.code_wraper {
+  display: block;
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  &.active {
+    .code_copy_button {
+      display: none;
+    }
+    .code_block_hint {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      right: 3px;
+      color: rgb(157, 170, 182);
+      font-size: 12px;
+      font-family: Roboto, sans-serif;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+  }
+  .code_block_hint {
+    display: none;
+  }
+  .code_copy_button {
+    display: block;
+    top: 16px;
+    right: 16px;
+    display: block;
+    z-index: 1;
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+  }
+  pre.code {
+    color: rgb(230, 236, 241);
+    display: block;
+    hyphens: none;
+    tab-size: 2;
+    direction: ltr;
+    font-size: 14px;
+    text-align: left;
+    word-break: normal;
+    font-family: 'Source Code Pro', Consolas, Menlo, Monaco, Courier, monospace;
+    line-height: 1.4;
+    white-space: pre;
+    word-spacing: normal;
+    // margin: 32px 0px;
+    padding: 24px 24px 24px 8px;
+    overflow: auto;
+    background: rgb(24, 48, 85);
+    border-radius: 3px;
+
+    .code_line {
+      position: relative;
+      overflow-wrap: normal;
+      white-space: pre;
+      counter-increment: line 1;
+      font: inherit;
+      padding: 0px 14px 0px 44px;
+
+      &:not(:only-child)::before {
+        top: 2px;
+        left: 4px;
+        color: rgb(92, 105, 117);
+        width: 24px;
+        bottom: 0px;
+        content: counter(line);
+        display: inline-block;
+        position: absolute;
+        font-size: 12px;
+        text-align: right;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        background-color: transparent;
+        user-select: none;
+        overflow: hidden;
+      }
+    }
+  }
+}

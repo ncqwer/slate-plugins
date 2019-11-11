@@ -1,0 +1,10 @@
+.editor_wrapper {
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .editor_wrapper {
+    width: 768px;
+  }
+}
