@@ -53,5 +53,8 @@
     "build:rollup": "rollup --config ./support/config.js",
     "build:production": "cross-env NODE_ENV=production yarn build:rollup",
     "release": "yarn build:production  && lerna publish"
+  },
+   "publishConfig": {
+    "access": "public"
   }
 }
