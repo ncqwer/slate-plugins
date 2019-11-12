@@ -81,7 +81,7 @@ function configure(pkg, env, target) {
             css: true,
           },
         ],
-      ],
+      ].filter(Boolean),
     }),
 
     // Register Node.js globals for browserify compatibility.

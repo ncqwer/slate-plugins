@@ -3,9 +3,11 @@ import { Editor } from 'slate-react';
 import { Value } from 'slate';
 
 import codeBase from '@zhujianshi/slate-code-base';
+import codeMath from '@zhujianshi/slate-code-math';
 import '@zhujianshi/slate-code-base/lib/index.css';
+import '@zhujianshi/slate-code-math/lib/index.css';
 import './Editor.css';
-const plugins = [codeBase()];
+const plugins = [codeBase(), codeMath()];
 // const plugins = [];
 const ExtendedEditor = () => {
   const ref = useRef(null);
