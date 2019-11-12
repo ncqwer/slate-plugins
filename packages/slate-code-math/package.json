@@ -1,6 +1,6 @@
 {
   "name": "@zhujianshi/slate-code-math",
-  "version": "0.0.1-alpha.0",
+  "version": "0.0.1-alpha.1",
   "description": "> TODO: description",
   "author": "ncqwer <zhujianshi123@gmail.com>",
   "homepage": "",
@@ -35,7 +35,7 @@
     "slate-react": ">=0.22.9"
   },
   "dependencies": {
-    "@zhujianshi/slate-code-base": "^0.0.1-alpha.0",
+    "@zhujianshi/slate-code-base": "^0.0.1-alpha.1",
     "is-hotkey": "^0.1.6",
     "katex": "^0.11.1"
   }
