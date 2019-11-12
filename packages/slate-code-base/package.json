@@ -18,7 +18,8 @@
     "lib"
   ],
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "umdGlobals": {
     "slate": "Slate",
@@ -39,5 +40,5 @@
     "is-hotkey": "^0.1.6",
     "prismjs": "^1.17.1"
   },
-  "gitHead": "19a49dda5c71d85a2612d768a95bf3c98c6e8310"
+  "gitHead": "b980faeb7dc882f8cafaccb75c66bc0939b9eeb4"
 }
