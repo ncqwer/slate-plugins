@@ -38,5 +38,6 @@
     "detect-indent": "^6.0.0",
     "is-hotkey": "^0.1.6",
     "prismjs": "^1.17.1"
-  }
+  },
+  "gitHead": "7b0aad027c4ca5785e4097be56b3745f65d20cbd"
 }

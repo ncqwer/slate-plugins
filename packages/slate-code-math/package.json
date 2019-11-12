@@ -38,5 +38,6 @@
     "@zhujianshi/slate-code-base": "^0.0.1-alpha.1",
     "is-hotkey": "^0.1.6",
     "katex": "^0.11.1"
-  }
+  },
+  "gitHead": "7b0aad027c4ca5785e4097be56b3745f65d20cbd"
 }
