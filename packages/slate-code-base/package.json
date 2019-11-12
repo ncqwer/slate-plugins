@@ -1,6 +1,6 @@
 {
   "name": "@zhujianshi/slate-code-base",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "> TODO: description",
   "author": "ncqwer <zhujianshi123@gmail.com>",
   "homepage": "",
@@ -16,9 +16,6 @@
   "files": [
     "lib"
   ],
-  "publishConfig": {
-    "registry": "https://registry.npm.org"
-  },
   "umdGlobals": {
     "slate": "Slate",
     "slate-react": "SlateReact"
@@ -38,5 +35,5 @@
     "is-hotkey": "^0.1.6",
     "prismjs": "^1.17.1"
   },
-  "gitHead": "4934e6c30dc5a1d488ea31b6df1f0b71f32f6477"
+  "gitHead": "877402a937a6e6e4b9b454ccfdaa0b0392dda4a5"
 }

@@ -1,6 +1,6 @@
 {
   "name": "@zhujianshi/slate-code-math",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "> TODO: description",
   "author": "ncqwer <zhujianshi123@gmail.com>",
   "homepage": "",
@@ -16,9 +16,6 @@
   "files": [
     "lib"
   ],
-  "publishConfig": {
-    "registry": "https://registry.npm.org"
-  },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
@@ -34,9 +31,9 @@
     "slate-react": ">=0.22.9"
   },
   "dependencies": {
-    "@zhujianshi/slate-code-base": "^0.0.1",
+    "@zhujianshi/slate-code-base": "^0.0.2",
     "is-hotkey": "^0.1.6",
     "katex": "^0.11.1"
   },
-  "gitHead": "4934e6c30dc5a1d488ea31b6df1f0b71f32f6477"
+  "gitHead": "877402a937a6e6e4b9b454ccfdaa0b0392dda4a5"
 }
