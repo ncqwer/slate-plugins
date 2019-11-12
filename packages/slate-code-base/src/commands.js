@@ -29,7 +29,6 @@ export default option => {
       return editor.moveNodeByKey(node.key, parentBlock.key, offset + 1);
     },
     exitCodeBlock(editor) {
-      console.log('hello');
       const codeBlock = editor.getClosestCodeBlock();
       return editor.insertParagraphAfterNode(codeBlock);
     },
@@ -112,7 +111,7 @@ export default option => {
       if (!isAllCommenLine) {
         const indentNum = allTexts.map(text => editor.getCodeLineIndentByNode(text).length).min();
         const indent = ' '.repeat(indentNum);
-        //add comment
+        // add comment
         const startStep = indentNum >= startPoint.offset ? 0 : 2; // '//'.length ===3
         const endStep = indentNum >= endPoint.offset ? 0 : 2;
         const newRange = range.isCollapsed
@@ -122,7 +121,7 @@ export default option => {
           .reduce((acc, text) => {
             const textStr = text.text;
             const path = document.getPath(text);
-            const newStr = textStr.replace(indent, indent + '//');
+            const newStr = textStr.replace(indent, `${indent}//`);
             return acc.setTextByPath(path, newStr);
           }, editor)
           .select(newRange);

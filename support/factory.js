@@ -1,13 +1,20 @@
+/* 
+  this file copy from 
+  https://github.com/ianstormtaylor/slate-plugins/tree/master/support/rollup 
+  and add some custom changes
+*/
+
 import babel from 'rollup-plugin-babel';
 import builtins from 'rollup-plugin-node-builtins';
 import commonjs from 'rollup-plugin-commonjs';
 import globals from 'rollup-plugin-node-globals';
-import json from 'rollup-plugin-json';
-import replace from 'rollup-plugin-replace';
+/* eslint-disable import/no-unresolved*/
+import json from '@rollup/plugin-json';
+import replace from '@rollup/plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 import less from 'rollup-plugin-less';
-import uglify from 'rollup-plugin-uglify';
-// import { startCase } from 'lodash';
+import { uglify } from 'rollup-plugin-uglify';
+import startCase from 'lodash.startcase';
 
 /**
  * Return a Rollup configuration for a `pkg` with `env` and `target`.
@@ -75,7 +82,17 @@ function configure(pkg, env, target) {
         realPkgName === 'slate-code-base' && [
           'prismjs',
           {
-            languages: ['javascript', 'css', 'markup', 'latex', 'c'],
+            languages: [
+              'javascript',
+              'css',
+              'markup',
+              'latex',
+              'c',
+              'cpp',
+              'html',
+              'php',
+              'haskell',
+            ],
             // plugins: ["line-numbers"],
             theme: 'tomorrow',
             css: true,
@@ -100,7 +117,7 @@ function configure(pkg, env, target) {
         format: 'umd',
         file: `packages/${realPkgName}/${isProd ? pkg.umdMin : pkg.umd}`,
         exports: 'named',
-        name: realPkgName.replace(/ /g, ''),
+        name: startCase(pkg.name).replace(/ /g, ''),
         globals: pkg.umdGlobals,
       },
       external: Object.keys(pkg.umdGlobals || {}),
@@ -141,11 +158,11 @@ function configure(pkg, env, target) {
  */
 
 function factory(pkg) {
-  const isProd = process.env.NODE_ENV === 'production';
+  // const isProd = process.env.NODE_ENV === 'production';
   return [
     configure(pkg, 'development', 'module'),
-    isProd && configure(pkg, 'development', 'umd'),
-    isProd && configure(pkg, 'production', 'umd'),
+    // isProd && configure(pkg, 'development', 'modules'),
+    // isProd && configure(pkg, 'production', 'umd'),
   ].filter(Boolean);
 }
 

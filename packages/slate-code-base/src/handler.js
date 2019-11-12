@@ -2,6 +2,29 @@ import isHotKey from 'is-hotkey';
 import detectIntent from 'detect-indent';
 import { Range } from 'slate';
 
+const AVALIABLE_LANGUAGES = {
+  javascript: ['js', 'javascript', 'jsx'],
+  css: ['css'],
+  markup: ['markup'],
+  latex: ['latex', 'tex'],
+  c: ['c'],
+  cpp: ['c++', 'cpp'],
+  html: ['html'],
+  php: ['php'],
+  haskell: ['haskell', 'hs'],
+};
+
+const AVALIABLE_LANGUAGES_MAP = Object.keys(AVALIABLE_LANGUAGES).reduce((outAcc, languageType) => {
+  const alaisTypes = AVALIABLE_LANGUAGES[languageType];
+  return alaisTypes.reduce(
+    (innerAcc, alias) => ({
+      ...innerAcc,
+      [alias]: languageType,
+    }),
+    outAcc,
+  );
+}, {});
+
 const ifFlow = (...conditionActions) => (...props) => {
   for (const [condition, action] of conditionActions) {
     if (condition(...props)) return action(...props);
@@ -30,7 +53,7 @@ const getSingleWordBias = (text, rule, offset = 0) => {
 
 export default option => {
   const variableChReg = /\w/;
-  const codeBlockReg = /^\s{0,3}```(\w*)/;
+  const codeBlockReg = /^\s{0,3}```([\w\+]*)/;
   const spaceReg = /^\s*$/;
   const braketsStartReg = /[{([`]/;
   const matchedBraketsReg = /(?:\{\})|(?:\[\])|(?:\(\))|(?:``)/;
@@ -52,8 +75,8 @@ export default option => {
     braketsStartReg.test(event.key) || braketsEndReg.test(event.key);
   const tabSpace = ' '.repeat(option.tabLength);
   const isInCodeLineBlock = (event, editor, next) => {
-    const { startBlock } = editor.value;
-    return startBlock.type !== option.codeLineType;
+    const { startBlock, endBlock } = editor.value;
+    return startBlock.type !== option.codeLineType || endBlock.type !== option.codeLineType;
   };
   return {
     onKeyDown(event, editor, next) {
@@ -84,7 +107,9 @@ export default option => {
     const text = startBlock.text;
     const res = codeBlockReg.exec(text);
     if (!res) return next();
-    const [matchStr, languageType] = res;
+    const [matchStr, languageAlias] = res;
+    let languageType = AVALIABLE_LANGUAGES_MAP[languageAlias];
+    if (!languageType) languageType = 'javascript';
     const remainStr = text.slice(matchStr.length);
     return editor.insertCodeBlock(languageType, remainStr).removeNodeByKey(startBlock.key);
   }
@@ -234,10 +259,26 @@ export default option => {
   }
 
   function handleModShiftUp(event, editor, next) {
-    // const { startBlock, endBlock } = editor.value;
-    return next();
+    event.preventDefault();
+    const { startBlock, endBlock } = editor.value;
+    const codeBlock = editor.getClosestCodeBlockByKey(startBlock.key);
+    const offset = codeBlock.nodes.indexOf(startBlock);
+    if (offset === 0) return next();
+    const prev = codeBlock.nodes.get(offset - 1);
+    const targetOffset = codeBlock.nodes.indexOf(endBlock);
+    if (!~targetOffset) return next(); // !~(-1) === true;
+    return editor.moveNodeByKey(prev.key, codeBlock, targetOffset);
   }
   function handleModShiftDown(event, editor, next) {
-    return next();
+    event.preventDefault();
+    const { startBlock, endBlock } = editor.value;
+    const codeBlock = editor.getClosestCodeBlockByKey(endBlock.key);
+    const len = codeBlock.nodes.size;
+    const offset = codeBlock.nodes.indexOf(endBlock);
+    if (offset === len - 1) return next();
+    const last = codeBlock.nodes.get(offset + 1);
+    const targetOffset = codeBlock.nodes.indexOf(startBlock);
+    if (!~targetOffset) return next(); // !~(-1) === true;
+    return editor.moveNodeByKey(last.key, codeBlock, targetOffset);
   }
 };
