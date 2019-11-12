@@ -6,6 +6,9 @@
   "homepage": "",
   "license": "MIT",
   "main": "lib/slate-code-math.js",
+  "module": "lib/slate-code-math.es.js",
+  "umd": "dist/slate-code-math.js",
+  "umdMin": "dist/slate-code-math.min.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
