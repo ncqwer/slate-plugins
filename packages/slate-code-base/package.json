@@ -3,6 +3,7 @@
   "version": "0.0.1-alpha.0",
   "description": "> TODO: description",
   "author": "ncqwer <zhujianshi123@gmail.com>",
+  "repository": "git@github.com:ncqwer/slate-plugins.git",
   "homepage": "",
   "license": "MIT",
   "main": "lib/slate-code-base.js",

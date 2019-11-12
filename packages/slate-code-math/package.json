@@ -4,6 +4,7 @@
   "description": "> TODO: description",
   "author": "ncqwer <zhujianshi123@gmail.com>",
   "homepage": "",
+  "repository": "git@github.com:ncqwer/slate-plugins.git",
   "license": "MIT",
   "main": "lib/slate-code-math.js",
   "module": "lib/slate-code-math.es.js",
