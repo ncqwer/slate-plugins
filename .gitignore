@@ -8,8 +8,8 @@ lib/
 # Temporary files.
 tmp/
 
-# Gitbook files.
-_book/
+# docz files.
+.docz/
 
 # Package files.
 lerna-debug.log
@@ -27,3 +27,5 @@ coverage/
 
 # Editor files
 .tern-port
+
+

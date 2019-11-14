@@ -20,11 +20,13 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "cross-env": "^6.0.3",
+    "docz": "^2.0.0-rc.58",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
+    "gatsby-plugin-less": "^3.0.13",
     "immutable": "^4.0.0-rc.12",
     "lerna": "^3.18.4",
     "lodash.startcase": "^4.4.0",
@@ -52,9 +54,10 @@
     "rootdevadd": "yarn add -D --ignore-workspace-root-check",
     "build:rollup": "rollup --config ./support/config.js",
     "build:production": "cross-env NODE_ENV=production yarn build:rollup",
-    "release": "yarn build:production  && lerna publish"
+    "release": "yarn build:production  && lerna publish",
+    "doc:dev": "yarn docz dev"
   },
-   "publishConfig": {
+  "publishConfig": {
     "access": "public"
   }
 }
