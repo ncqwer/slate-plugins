@@ -1,0 +1,46 @@
+.figure-table {
+  padding: 0;
+  margin: 0 auto;
+  .table-tool-bar ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    list-style-type: none;
+    justify-content: space-between;
+    li {
+      cursor: pointer;
+      padding: 0.3rem;
+      border: 1px solid #89e99c;
+      border-radius: 3px;
+      min-width: 4rem;
+      text-align: center;
+    }
+
+    margin-bottom: 0.5rem;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead tr {
+      background: var(--table-head-background-color, #f5f5f5);
+      font-weight: bold;
+    }
+
+    td {
+      border: 1px solid var(--table-border-color, #e5e5e5);
+      padding: 0.5em;
+      position: relative;
+
+      &.table-cell-align-center {
+        text-align: center;
+      }
+      &.table-cell-align-left {
+        text-align: left;
+      }
+      &.table-cell-align-right {
+        text-align: right;
+      }
+    }
+  }
+}

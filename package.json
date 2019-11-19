@@ -19,6 +19,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "chokidar": "^3.3.0",
     "cross-env": "^6.0.3",
     "docz": "^2.0.0-rc.58",
     "eslint": "^6.6.0",
@@ -55,7 +56,8 @@
     "build:rollup": "rollup --config ./support/config.js",
     "build:production": "cross-env NODE_ENV=production yarn build:rollup",
     "release": "yarn build:production  && lerna publish",
-    "doc:dev": "yarn docz dev"
+    "doc:dev": "yarn docz dev",
+    "build:watch": "rollup --watch --config ./support/config.js"
   },
   "publishConfig": {
     "access": "public"

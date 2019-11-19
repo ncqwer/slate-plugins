@@ -147,6 +147,11 @@ function configure(pkg, env, target) {
       external: id => {
         return !!deps.find(dep => dep === id || id.startsWith(`${dep}/`));
       },
+      watch: {
+        include: `packages/${realPkgName}/src/**`,
+        clearScreen: true,
+        chokidar: true,
+      },
     };
   }
 }

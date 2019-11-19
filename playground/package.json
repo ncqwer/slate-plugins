@@ -6,7 +6,7 @@
     "react-scripts": "3.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -23,5 +23,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^6.0.3"
   }
 }

@@ -37,6 +37,7 @@ const createDecoration = ({ text, path, textStart, textEnd, start, end, data }) 
   };
 };
 
+// may be a better name
 const createCodePlugin = opt => {
   const option = Object.assign({}, defaultOption, opt);
   const schema = {

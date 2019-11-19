@@ -4,10 +4,12 @@ import { Value } from 'slate';
 
 import codeBase from '@zhujianshi/slate-code-base';
 import codeMath from '@zhujianshi/slate-code-math';
+import table from '@zhujianshi/slate-table';
 import '@zhujianshi/slate-code-base/lib/index.css';
 import '@zhujianshi/slate-code-math/lib/index.css';
+import '@zhujianshi/slate-table/lib/index.css';
 import './Editor.css';
-const plugins = [codeBase(), codeMath()];
+const plugins = [codeBase(), codeMath(), table()];
 // const plugins = [];
 const ExtendedEditor = () => {
   const ref = useRef(null);

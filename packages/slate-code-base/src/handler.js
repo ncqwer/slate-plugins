@@ -207,7 +207,7 @@ export default option => {
     const forwardStep = endText.text.length - endPoint.offset;
     const newSelection = selection.moveStartBackward(backwardStep).moveEndForward(forwardStep);
     event.preventDefault();
-    return editor.deleteAtRange(newSelection);
+    return editor.deleteAtRange(newSelection).deleteBackward(1);
   }
 
   function handleCompensateBrakets(event, editor, next) {

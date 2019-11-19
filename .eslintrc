@@ -131,7 +131,7 @@
     "react/no-string-refs": "error",
     "react/no-unknown-property": "error",
     "react/react-in-jsx-scope": "error",
-    "react/self-closing-comp": "error",
+    "react/self-closing-comp": "warn",
     "react/sort-prop-types": "error",
     "spaced-comment": ["error", "always", { "exceptions": ["-"] }],
     "use-isnan": "error",

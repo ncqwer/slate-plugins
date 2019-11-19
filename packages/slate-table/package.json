@@ -1,15 +1,12 @@
 {
-  "name": "@zhujianshi/slate-code-math",
+  "name": "@zhujianshi/slate-table",
   "version": "0.0.1-alpha.4",
   "description": "> TODO: description",
   "author": "ncqwer <zhujianshi123@gmail.com>",
-  "homepage": "",
-  "repository": "git@github.com:ncqwer/slate-plugins.git",
+  "homepage": "https://github.com/ncqwer/slate-plugins#readme",
   "license": "MIT",
-  "main": "lib/slate-code-math.js",
-  "module": "lib/slate-code-math.es.js",
-  "umd": "dist/slate-code-math.js",
-  "umdMin": "dist/slate-code-math.min.js",
+  "main": "lib/slate-talbe.js",
+  "module": "lib/slate-table.es.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -22,12 +19,12 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ncqwer/slate-plugins.git"
+  },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
-  },
-  "umdGlobals": {
-    "slate": "Slate",
-    "slate-react": "SlateReact"
   },
   "peerDependencies": {
     "immutable": ">=3.8.2",
@@ -36,10 +33,10 @@
     "slate": ">=0.47.8",
     "slate-react": ">=0.22.9"
   },
-  "dependencies": {
-    "@zhujianshi/slate-code-base": "^0.0.1-alpha.4",
-    "is-hotkey": "^0.1.6",
-    "katex": "^0.11.1"
+  "bugs": {
+    "url": "https://github.com/ncqwer/slate-plugins/issues"
   },
-  "gitHead": "b980faeb7dc882f8cafaccb75c66bc0939b9eeb4"
+  "dependencies": {
+    "is-hotkey": "^0.1.6"
+  }
 }
