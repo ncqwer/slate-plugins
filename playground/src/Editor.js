@@ -9,7 +9,10 @@ import '@zhujianshi/slate-code-base/lib/index.css';
 import '@zhujianshi/slate-code-math/lib/index.css';
 import '@zhujianshi/slate-table/lib/index.css';
 import './Editor.css';
-const plugins = [codeBase(), codeMath(), table()];
+
+const code = codeBase();
+
+const plugins = [code, codeMath(), table()];
 // const plugins = [];
 const ExtendedEditor = () => {
   const ref = useRef(null);

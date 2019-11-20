@@ -32,6 +32,7 @@ export default opt => {
       'filterDescendants====>',
       startBlock.filterDescendants(() => true),
     );
+    console.log('hhhhh');
     console.log('getAncestors====>', document.getAncestors(startBlock.key));
     console.log('getParent====>', document.getParent(startBlock.key));
     console.log('getPath====>', document.getPath(startBlock.key));
@@ -56,6 +57,7 @@ export default opt => {
   }
 
   function handleShiftTab(event, editor, next) {
+    console.log('hhhhhh');
     return editor.insertTable(3, 3);
   }
 };
