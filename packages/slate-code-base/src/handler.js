@@ -63,7 +63,7 @@ export default option => {
   const isModShiftK = isHotKey('mod+shift+k');
   const isEnter = isHotKey('enter');
   const isBackspace = isHotKey('backspace');
-  const isSpace = isHotKey('space');
+  const isModE = isHotKey('mod+e');
   const isTab = isHotKey('tab');
   const isModEnter = isHotKey('mod+enter');
   const isModLeftSquareBrakets = isHotKey('mod+[');
@@ -81,7 +81,7 @@ export default option => {
   return {
     onKeyDown(event, editor, next) {
       return ifFlow(
-        [isSpace, handleSpace], // convert to code block
+        [isModE, handleModE], // convert to code block
         [isInCodeLineBlock, () => next()],
         [isShiftEnter, handleShiftEnter], // escape the code
         [isEnter, handleEnter],
@@ -101,12 +101,14 @@ export default option => {
     },
   };
 
-  function handleSpace(event, editor, next) {
-    const { startBlock } = editor.value;
+  function handleModE(event, editor, next) {
+    const { startBlock, document } = editor.value;
     if (startBlock.type !== 'paragraph') return next(); // only convert paragraph block to code block
+    if (!document.nodes.includes(startBlock)) return next();
     const text = startBlock.text;
     const res = codeBlockReg.exec(text);
     if (!res) return next();
+    event.preventDefault();
     const [matchStr, languageAlias] = res;
     let languageType = AVALIABLE_LANGUAGES_MAP[languageAlias];
     if (!languageType) languageType = 'javascript';

@@ -1,6 +1,6 @@
 {
   "extends": ["prettier", "prettier/react"],
-  "plugins": ["import", "react", "prettier"],
+  "plugins": ["import", "react", "prettier",  "react-hooks"],
   "settings": {
     "import/extensions": [".js"]
   },
@@ -117,6 +117,8 @@
     "prefer-template": "error",
     "prettier/prettier": "error",
     "radix": "error",
+    "react-hooks/rules-of-hooks": "error", 
+    "react-hooks/exhaustive-deps": "warn" ,
     "react/jsx-boolean-value": ["error", "never"],
     "react/jsx-key": "error",
     "react/jsx-no-duplicate-props": "error",

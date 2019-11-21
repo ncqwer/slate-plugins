@@ -55,8 +55,6 @@ export const KatexBlock = props => {
 
   // handle function
   function onClick(e) {
-    /* eslint-disable no-console*/
-    console.log('hhhh');
     editor.moveToStartOfNode(node).focus();
   }
 };

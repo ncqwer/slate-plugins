@@ -29,21 +29,19 @@ export default opt => {
   };
 
   function tableNormalize(editor, error) {
-    const { code, node, index } = error;
-    if (code === 'child_min_invalid')
-      return editor.insertNodeByKey(node.key, index, { object: 'block', type: rowType });
+    const { code, node } = error;
+    if (code === 'child_min_invalid') return editor.removeNodeByKey(node.key);
     if (code === 'child_type_invalid') {
       return editor.removeNodeByKey(error.child.key);
     }
     if (code === 'child_object_invalid') {
-      return editor.removeNodeByKey(error.child.key);
+      return editor.removeNodeByKey(error.node.key);
     }
   }
   function rowNormalize(editor, error) {
-    const { code, node, index } = error;
-    if (code === 'child_min_invalid')
-      return editor.insertNodeByKey(node.key, index, { object: 'block', type: rowType });
-    if (code === 'child_object_invalid') return editor.removeNodeByKey(error.child.key);
+    const { code, node } = error;
+    if (code === 'child_min_invalid') return editor.removeNodeByKey(node.key);
+    if (code === 'child_object_invalid') return editor.removeNodeByKey(error.node.key);
     if (code === 'child_type_invalid') return editor.removeNodeByKey(error.child.key);
     if (code === 'parent_type_invalid') return editor.wrapBlockByKey(node.key, tableType);
   }
@@ -51,7 +49,7 @@ export default opt => {
     const { code, node, index } = error;
     if (code === 'child_min_invalid')
       return editor.insertNodeByKey(node.key, index, { object: 'block', type: contentType });
-    if (code === 'child_object_invalid') return editor.removeNodeByKey(error.child.key);
+    if (code === 'child_object_invalid') return editor.removeNodeByKey(error.node.key);
     if (code === 'child_type_invalid') return editor.removeNodeByKey(error.child.key);
     if (code === 'parent_type_invalid') return editor.wrapBlockByKey(node.key, rowType);
   }

@@ -1,4 +1,4 @@
-import { Block } from 'slate';
+import { Block, Text } from 'slate';
 
 export default option => {
   return {
@@ -6,12 +6,15 @@ export default option => {
     insertParagraphAfterNode(editor, node) {
       const parentBlock = editor.value.document.getParent(node.key);
       const offset = parentBlock.nodes.indexOf(node);
-      const paragraph = Block.create('paragraph');
+      const paragraph = Block.create({
+        type: 'paragraph',
+        object: 'block',
+        nodes: [Text.create('')],
+      });
       return editor
         .delete()
         .insertNodeByKey(parentBlock.key, offset + 1, paragraph)
-        .moveToEndOfBlock(node)
-        .moveForward(1);
+        .moveToStartOfNode(paragraph);
     },
     insertMathBlock(editor, latexText = '') {
       const codeBlockKey = editor.insertCodeBlock('latex', latexText).getClosestCodeBlock();
