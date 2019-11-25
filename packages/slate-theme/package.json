@@ -1,0 +1,32 @@
+{
+  "name": "@zhujianshi/slate-theme",
+  "version": "0.0.1-alpha.5",
+  "description": "any-slate's theme",
+  "author": "Neyio <neyioqian@gmail.com>",
+  "homepage": "https://github.com/ncqwer/slate-plugins#readme",
+  "license": "MIT",
+  "main": "lib/slate-theme.js",
+  "module": "lib/slate-theme.es.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ncqwer/slate-plugins.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/ncqwer/slate-plugins/issues"
+  }
+}
