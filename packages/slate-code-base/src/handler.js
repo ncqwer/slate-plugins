@@ -1,6 +1,7 @@
 import isHotKey from 'is-hotkey';
 import detectIntent from 'detect-indent';
 import { Range } from 'slate';
+import { ifFlow } from '@zhujianshi/slate-plugin-utils';
 
 const AVALIABLE_LANGUAGES = {
   javascript: ['js', 'javascript', 'jsx'],
@@ -25,11 +26,6 @@ const AVALIABLE_LANGUAGES_MAP = Object.keys(AVALIABLE_LANGUAGES).reduce((outAcc,
   );
 }, {});
 
-const ifFlow = (...conditionActions) => (...props) => {
-  for (const [condition, action] of conditionActions) {
-    if (condition(...props)) return action(...props);
-  }
-};
 const getSingleWordBias = (text, rule, offset = 0) => {
   let startBias = 0;
   let startCh = text[offset - startBias];

@@ -178,7 +178,7 @@ export default opt => {
         tableBlock.nodes.forEach(row => {
           const target = row.nodes.get(cols);
           const targetData = target.data;
-          const newData = targetData.set('text-align', `table-cell-align-${value}`);
+          const newData = targetData.set('text-align', `table-cell--align-${value}`);
           return editor.setNodeByKey(target.key, { data: newData });
         });
       });

@@ -1,11 +1,6 @@
 import isHotKey from 'is-hotkey';
 import { Text } from 'slate';
-
-const ifFlow = (...conditionActions) => (...args) => {
-  for (const [condtion, action] of conditionActions) {
-    if (condtion(...args)) return action(...args);
-  }
-};
+import { ifFlow } from '@zhujianshi/slate-plugin-utils';
 
 export default opt => {
   const tableReg = /^(?:\|\s*(\S+)\s*)+\|$/;
@@ -76,11 +71,13 @@ export default opt => {
     if (!result) return next();
     event.preventDefault();
     const heads = result[1].replace(/\s/, '').split('|');
-    return editor.removeNodeByKey(startBlock.key).insertTable(1, heads.length, () => col => {
-      return {
-        nodes: [Text.create(heads[col])],
-      };
-    });
+    return editor
+      .insertTable(1, heads.length, () => col => {
+        return {
+          nodes: [Text.create(heads[col])],
+        };
+      })
+      .removeNodeByKey(startBlock.key);
   }
 
   function handleShiftEnter(event, editor, next) {

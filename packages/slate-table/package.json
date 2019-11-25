@@ -37,6 +37,8 @@
     "url": "https://github.com/ncqwer/slate-plugins/issues"
   },
   "dependencies": {
-    "is-hotkey": "^0.1.6"
+    "@zhujianshi/slate-plugin-utils": "^0.0.1-alpha.5",
+    "is-hotkey": "^0.1.6",
+    "rc-tooltip": "^4.0.0-alpha.3"
   }
 }

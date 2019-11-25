@@ -18,6 +18,8 @@ export default opt => {
     },
     getTablePosition(editor) {
       const { startBlock } = editor.value;
+      //　FIX: 解决编辑器失焦时，startBlock可能为null导致后续查询报错的问题
+      if (!startBlock) return [];
       return editor.getTablePositionByKey(startBlock.key);
     },
   };
