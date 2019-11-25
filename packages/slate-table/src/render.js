@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, Fragment } from 'react';
 
-import { Icon } from './icon.js';
+import { Icon } from '@zhujianshi/slate-plugin-utils';
 import './style.less';
 
 export default opt => {

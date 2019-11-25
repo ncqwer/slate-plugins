@@ -8,3 +8,7 @@
     width: 768px;
   }
 }
+
+li + li {
+  padding-top: 1rem;
+}

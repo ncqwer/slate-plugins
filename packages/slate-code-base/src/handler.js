@@ -70,15 +70,17 @@ export default option => {
   const isCompensateBrakets = event =>
     braketsStartReg.test(event.key) || braketsEndReg.test(event.key);
   const tabSpace = ' '.repeat(option.tabLength);
-  const isInCodeLineBlock = (event, editor, next) => {
+  const isOutCodeLineBlock = (event, editor, next) => {
     const { startBlock, endBlock } = editor.value;
     return startBlock.type !== option.codeLineType || endBlock.type !== option.codeLineType;
   };
+  const isEnterWhenOutCodeLineBlock = (...args) => isOutCodeLineBlock(...args) && isEnter(...args);
   return {
     onKeyDown(event, editor, next) {
       return ifFlow(
         [isModE, handleModE], // convert to code block
-        [isInCodeLineBlock, () => next()],
+        [isEnterWhenOutCodeLineBlock, handleModE],
+        [isOutCodeLineBlock, () => next()],
         [isShiftEnter, handleShiftEnter], // escape the code
         [isEnter, handleEnter],
         [isTab, handleTab],

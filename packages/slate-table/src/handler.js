@@ -6,18 +6,21 @@ export default opt => {
   const tableReg = /^(?:\|\s*(\S+)\s*)+\|$/;
   const alwaysTrue = () => true;
   const isModE = isHotKey('mod+e');
+  const isEnter = isHotKey('enter');
   const isShiftEnter = isHotKey('shift+enter');
-  const isInCellBlock = (event, editor, next) => {
+  const isOutCellBlock = (event, editor, next) => {
     const [, , cellBlock] = editor.getTablePosition();
     if (!cellBlock) return true;
     return false;
   };
+  const isEnterWhenOutCellBlock = (...args) => isOutCellBlock(...args) && isEnter(...args);
   const isTab = isHotKey('tab');
   return {
     onKeyDown(event, editor, next) {
       return ifFlow(
         [isModE, handleModE],
-        [isInCellBlock, next],
+        [isEnterWhenOutCellBlock, handleModE],
+        [isOutCellBlock, next],
         [isShiftEnter, handleShiftEnter],
         [isTab, handleTab],
         [alwaysTrue, defaultHander],

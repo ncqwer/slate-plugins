@@ -44,19 +44,19 @@ function configure(pkg, env, target) {
 
     // Allow Rollup to resolve CommonJS modules, since it only resolves ES2015
     // modules by default.
-    isUmd &&
-      commonjs({
-        exclude: [`packages/${realPkgName}/src/**`],
-        // HACK: Sometimes the CommonJS plugin can't identify named exports, so
-        // we have to manually specify named exports here for them to work.
-        // https://github.com/rollup/rollup-plugin-commonjs#custom-named-exports
-        namedExports: {
-          esrever: ['reverse'],
-          immutable: ['List', 'Map', 'Record', 'OrderedSet', 'Set', 'Stack', 'is'],
-          'react-dom': ['findDOMNode'],
-          'react-dom/server': ['renderToStaticMarkup'],
-        },
-      }),
+    // isUmd &&
+    commonjs({
+      exclude: [`packages/${realPkgName}/src/**`],
+      // HACK: Sometimes the CommonJS plugin can't identify named exports, so
+      // we have to manually specify named exports here for them to work.
+      // https://github.com/rollup/rollup-plugin-commonjs#custom-named-exports
+      namedExports: {
+        esrever: ['reverse'],
+        immutable: ['List', 'Map', 'Record', 'OrderedSet', 'Set', 'Stack', 'is'],
+        'react-dom': ['findDOMNode'],
+        'react-dom/server': ['renderToStaticMarkup'],
+      },
+    }),
 
     // Convert JSON imports to ES6 modules.
     json(),

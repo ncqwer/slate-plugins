@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Prism from 'prismjs';
+import copyHelper from 'copy-to-clipboard';
+
+import { Icon } from '@zhujianshi/slate-plugin-utils';
+
 import './style.less';
 
 // https://github.com/GitbookIO/slate-edit-code
@@ -32,6 +36,25 @@ const createDecoration = ({ text, path, textStart, textEnd, start, end, data }) 
   };
 };
 
+const CopyButton = ({ onClick, ...others }) => {
+  const [copyStatus, setCopyStatus] = useState(false);
+  return (
+    <div {...others} onClick={handleClick} onMouseLeave={handleMouseLeave}>
+      {!copyStatus ? <Icon type="copy" /> : 'copyed'}
+    </div>
+  );
+
+  function handleClick() {
+    /* eslint-disable no-unused-expressions*/
+    onClick && onClick();
+    setCopyStatus(true);
+  }
+
+  function handleMouseLeave() {
+    setCopyStatus(false);
+  }
+};
+
 export default opt => {
   const {
     block: CODE_CLASS,
@@ -47,7 +70,7 @@ export default opt => {
     return (
       <div {...attributes} className={className}>
         <div contentEditable={false}>
-          <button className={COPY_BUTTON_CLASS}>copy</button>
+          <CopyButton className={COPY_BUTTON_CLASS} onClick={handleCopyBtnClick} />
           <div className={HINT_CLASS}>exit: Shift+↩</div>
         </div>
         <pre className={`code language-${language}`}>
@@ -55,6 +78,14 @@ export default opt => {
         </pre>
       </div>
     );
+
+    function handleCopyBtnClick() {
+      const text = node
+        .getTexts()
+        .map(t => t.text)
+        .join('\n');
+      copyHelper(text);
+    }
   };
 
   const CodeLine = props => {
