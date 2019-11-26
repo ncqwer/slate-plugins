@@ -13,17 +13,21 @@ const createCodePlugin = options => {
   const opt = Object.assign({}, optRaw, {
     className: handleBEM(optRaw),
   });
+  const { codeType, codeLineType } = opt;
   const schema = {
     blocks: {
-      code: {
+      [codeType]: {
+        // code: {
         nodes: [
           {
-            match: { type: 'code_line' },
+            match: { type: codeLineType },
+            // match: { type: 'code_line' },
           },
         ],
         normalize,
       },
-      code_line: {
+      [codeLineType]: {
+        // code_line: {
         nodes: [{ match: { object: 'text' } }],
       },
     },
