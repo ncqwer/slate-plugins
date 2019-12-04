@@ -1,10 +1,9 @@
-import React from 'react';
+import useDebounce, { createUseDebounce } from './hooks/useDebounce';
+import useThrottle, { createUseThrottle } from './hooks/useThrottle';
+import useResizeDetecter from './hooks/useResizeDetecter';
+import useWatch from './hooks/useWatch';
 
-export const Icon = ({ type, message }) => {
-  const className = `iconfont icon-${type}`;
-  return <span className={className} />;
-};
-
+export { Icon, IconBar } from './render';
 const handleModifier = (modifiers, itemClassName) =>
   modifiers
     .map(modifier => {
@@ -99,4 +98,13 @@ export const ifFlow = (...conditionActions) => (...args) => {
   for (const [condtion, action] of conditionActions) {
     if (condtion(...args)) return action(...args);
   }
+};
+
+export {
+  useWatch,
+  useDebounce,
+  createUseDebounce,
+  useThrottle,
+  createUseThrottle,
+  useResizeDetecter,
 };

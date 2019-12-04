@@ -67,6 +67,7 @@
     "build:watch": "rollup --watch --config ./support/config.js"
   },
   "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
     "access": "public"
   }
 }

@@ -64,7 +64,8 @@ module.exports = {
           {
             test: /\.(js|mjs)$/,
             // include: /(?:slate-code-base)|(?:slate-code-math)|(?:slate-table)/,
-            include: /packages\/slate/,
+            // include: /packages\/slate/,
+            include: path.join(__dirname, '../packages/'),
             loader: 'babel-loader',
             // options: {
             //   // babelrc: false,

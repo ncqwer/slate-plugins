@@ -35,5 +35,9 @@
   },
   "bugs": {
     "url": "https://github.com/ncqwer/slate-plugins/issues"
+  },
+  "dependencies": {
+    "rc-tooltip": "^4.0.0-alpha.3",
+    "resize-observer-polyfill": "^1.5.1"
   }
 }

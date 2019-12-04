@@ -8,6 +8,7 @@ import table from '@zhujianshi/slate-table';
 import '@zhujianshi/slate-code-base/lib/index.css';
 import '@zhujianshi/slate-code-math/lib/index.css';
 import '@zhujianshi/slate-table/lib/index.css';
+import 'rc-tooltip/assets/bootstrap.css';
 import './Editor.css';
 
 const code = codeBase();

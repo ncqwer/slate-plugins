@@ -1,13 +1,12 @@
 {
-  "name": "@zhujianshi/slate-code-math",
+  "name": "@zhujianshi/slate-draggable",
   "version": "0.0.1-alpha.6",
   "description": "> TODO: description",
   "author": "ncqwer <zhujianshi123@gmail.com>",
-  "homepage": "",
-  "repository": "git@github.com:ncqwer/slate-plugins.git",
+  "homepage": "https://github.com/ncqwer/slate-plugins#readme",
   "license": "MIT",
-  "main": "lib/slate-code-math.js",
-  "module": "lib/slate-code-math.es.js",
+  "main": "lib/slate-draggable.js",
+  "module": "lib/slate-draggable.es.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -17,8 +16,12 @@
     "src"
   ],
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ncqwer/slate-plugins.git"
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
@@ -30,11 +33,11 @@
     "slate": ">=0.47.8",
     "slate-react": ">=0.22.9"
   },
-  "dependencies": {
-    "@zhujianshi/slate-code-base": "^0.0.1-alpha.6",
-    "@zhujianshi/slate-plugin-utils": "^0.0.1-alpha.6",
-    "is-hotkey": "^0.1.6",
-    "katex": "^0.11.1"
+  "bugs": {
+    "url": "https://github.com/ncqwer/slate-plugins/issues"
   },
-  "gitHead": "b980faeb7dc882f8cafaccb75c66bc0939b9eeb4"
+  "dependencies": {
+    "@zhujianshi/slate-plugin-utils": "^0.0.1-alpha.6",
+    "react-dnd": "^9.5.1"
+  }
 }

@@ -1,6 +1,12 @@
-import React, { useEffect, useRef, Fragment } from 'react';
+import React, { useEffect, useRef, useState, Fragment } from 'react';
 
-import { Icon } from '@zhujianshi/slate-plugin-utils';
+import {
+  Icon,
+  IconBar,
+  useDebounce,
+  useResizeDetecter,
+  useWatch,
+} from '@zhujianshi/slate-plugin-utils';
 import './style.less';
 
 export default opt => {
@@ -9,14 +15,22 @@ export default opt => {
     'block__tool--table-menu': TABLE_MENU_CLASS,
     'block__tool--row-menu': ROW_MENU_CLASS,
     'block__tool--col-menu': COL_MENU_CLASS,
-    'block__tool--plus': PLUS_CLASS,
+    'block__icon-bar--table': ICON_TABLE,
+    'block__icon-bar--row': ICON_ROW,
+    'block__icon-bar--col': ICON_COL,
+    'block__custom-rc--tooltip': TOOLTIP,
   } = opt.className;
   const STable = ({ children, node, attributes, editor, isSelected, isFocused }) => {
+    const [tableHeight, setTableHeight] = useState(0);
+    const rawHandler = ({ contentRect }) => {
+      setTableHeight(contentRect.height);
+    };
+    const [handler] = useDebounce(rawHandler);
+    const ref = useResizeDetecter(handler);
     return (
       <figure className={TABLE_CLASS}>
         {renderTableMenu()}
         {renderBody()}
-        {renderPlusIcon()}
         {renderRowMenu()}
         {renderColMenu()}
       </figure>
@@ -24,32 +38,13 @@ export default opt => {
 
     function renderBody() {
       return (
-        <table {...attributes}>
+        <table {...attributes} ref={ref}>
           <thead>{children[0]}</thead>
           <tbody>{children.slice(1)}</tbody>
         </table>
       );
     }
 
-    function renderPlusIcon() {
-      const pos = node.data.get('plusPos');
-      if (!isSelected) return <Fragment />;
-      if (!pos) return <Fragment />;
-      const style = {
-        left: pos.left,
-        top: pos.top,
-      };
-      return (
-        <div
-          contentEditable={false}
-          onClick={handleInsert('insertRowAfter')}
-          className={PLUS_CLASS}
-          style={style}
-        >
-          <Icon type="row-add" />
-        </div>
-      );
-    }
     function renderRowMenu() {
       const pos = node.data.get('rowMenuPos');
       if (!isSelected) return <Fragment />;
@@ -60,18 +55,25 @@ export default opt => {
         height: `${pos.height}px`,
       };
       return (
-        <div
-          contentEditable={false}
-          onClick={handleRemove('row')}
+        <IconBar
           className={ROW_MENU_CLASS}
-          style={style}
+          placement="right"
+          trigger={['hover']}
+          innerStyle={style}
+          popupClassName={TOOLTIP}
         >
-          <ul>
-            <li>
+          <ul className={ICON_ROW}>
+            <li onClick={handleInsert('insertRowBefore')}>
+              <Icon type="add_row_before" />
+            </li>
+            <li onClick={handleInsert('insertRowAfter')}>
+              <Icon type="add_row_after" />
+            </li>
+            <li onClick={handleRemove('row')}>
               <Icon type="delete" />
             </li>
           </ul>
-        </div>
+        </IconBar>
       );
     }
     function renderColMenu() {
@@ -86,8 +88,14 @@ export default opt => {
         width: `${pos.width}px`,
       };
       return (
-        <div contentEditable={false} className={COL_MENU_CLASS} style={style}>
-          <ul>
+        <IconBar
+          className={COL_MENU_CLASS}
+          placement="top"
+          trigger={['hover']}
+          innerStyle={style}
+          popupClassName={TOOLTIP}
+        >
+          <ul className={ICON_COL}>
             <li onClick={handleInsert('insertColumnBefore')}>
               <Icon type="add_col_before" />
             </li>
@@ -107,31 +115,34 @@ export default opt => {
               <Icon type="add_col_after" />
             </li>
           </ul>
-        </div>
+        </IconBar>
       );
     }
 
     function renderTableMenu() {
-      const height = node.data.get('tableHeight');
-      if (!height) return <Fragment />;
+      if (!tableHeight) return <Fragment />;
       if (!isSelected) return <Fragment />;
-      const isSingleRow = node.nodes.size === 1;
       const style = {
-        height: `${height}px`,
+        height: `${tableHeight}px`,
       };
+
       return (
-        <div contentEditable={false} className={TABLE_MENU_CLASS} style={style}>
-          <ul>
+        <IconBar
+          className={TABLE_MENU_CLASS}
+          placement="left"
+          trigger={['hover']}
+          innerStyle={style}
+          popupClassName={TOOLTIP}
+        >
+          <ul className={ICON_TABLE}>
             <li>
               <Icon type="table" />
             </li>
-            {!isSingleRow && (
-              <li onClick={handleRemoveTable}>
-                <Icon type="delete" />
-              </li>
-            )}
+            <li onClick={handleRemoveTable}>
+              <Icon type="delete" />
+            </li>
           </ul>
-        </div>
+        </IconBar>
       );
     }
 
@@ -157,38 +168,60 @@ export default opt => {
   };
   const SRow = ({ attributes, children, node, isFocused, editor }) => {
     const nodeKey = node.key;
-    const self = useRef(null);
-    useEffect(() => {
-      const [tableBlock] = editor.getTablePositionByKey(nodeKey);
-      const isLastRow = tableBlock.nodes.last() === node;
-      const prevTableData = tableBlock.data;
-      let newTableData = prevTableData;
-      if (isLastRow && self.current) {
-        const { offsetTop, offsetHeight } = self.current;
-        newTableData = newTableData.set('tableHeight', offsetTop + offsetHeight);
-      }
-      if (isFocused && self.current) {
-        const { offsetTop, offsetHeight, offsetWidth, offsetLeft } = self.current;
-        const plusTop = offsetTop + offsetHeight;
-        const plusLeft = offsetLeft + offsetWidth / 2;
+    // const self = useRef(null);
+    const [handler] = useDebounce(({ target }) => {
+      if (isFocused && !!target) {
+        const [tableBlock] = editor.getTablePositionByKey(nodeKey);
+        const { offsetTop, offsetHeight, offsetWidth, offsetLeft } = target;
         const menuTop = offsetTop;
         const menuLeft = offsetLeft + offsetWidth;
         const isInHead = tableBlock.nodes.first().key === nodeKey;
-        newTableData = newTableData
-          .set('plusPos', {
-            top: plusTop,
-            left: plusLeft,
-          })
+        console.log('heavy task!!!');
+        const newTableData = tableBlock.data
           .set('rowMenuPos', {
             top: menuTop,
             height: offsetHeight,
             left: menuLeft,
           })
           .set('isInHead', isInHead);
-      }
-      if (newTableData !== prevTableData)
         editor.setNodeByKey(tableBlock.key, { data: newTableData });
+      }
     });
+    const self = useResizeDetecter(handler);
+    useWatch(() => {
+      handler({ target: self.current });
+    }, [isFocused]);
+    // useEffect(() => {
+    //   const [tableBlock] = editor.getTablePositionByKey(nodeKey);
+    //   const isLastRow = tableBlock.nodes.last() === node;
+    //   const prevTableData = tableBlock.data;
+    //   let newTableData = prevTableData;
+    //   if (isLastRow && self.current) {
+    //     const { offsetTop, offsetHeight } = self.current;
+    //     newTableData = newTableData.set('tableHeight', offsetTop + offsetHeight);
+    //   }
+    //   if (isFocused && self.current) {
+    //     const { offsetTop, offsetHeight, offsetWidth, offsetLeft } = self.current;
+    //     const plusTop = offsetTop + offsetHeight;
+    //     const plusLeft = offsetLeft + offsetWidth / 2;
+    //     const menuTop = offsetTop;
+    //     const menuLeft = offsetLeft + offsetWidth;
+    //     const isInHead = tableBlock.nodes.first().key === nodeKey;
+    //     newTableData = newTableData
+    //       .set('plusPos', {
+    //         top: plusTop,
+    //         left: plusLeft,
+    //       })
+    //       .set('rowMenuPos', {
+    //         top: menuTop,
+    //         height: offsetHeight,
+    //         left: menuLeft,
+    //       })
+    //       .set('isInHead', isInHead);
+    //   }
+    //   if (newTableData !== prevTableData)
+    //     editor.setNodeByKey(tableBlock.key, { data: newTableData });
+    // });
     return (
       <tr {...attributes} ref={self}>
         {children}
@@ -197,14 +230,14 @@ export default opt => {
   };
   const SCell = ({ attributes, children, node, isFocused, editor }) => {
     const nodeKey = node.key;
-    const self = useRef(null);
     const alignClass = node.data.get('text-align');
-    useEffect(() => {
+    const [handler] = useDebounce(({ target }) => {
       if (isFocused && self.current) {
+        console.log('heavy task col;');
         const [tableBlock, rowBlock] = editor.getTablePositionByKey(nodeKey);
         const isHead = tableBlock.nodes.first() === rowBlock;
         if (isHead) {
-          const { offsetTop, offsetWidth, offsetLeft } = self.current;
+          const { offsetTop, offsetWidth, offsetLeft } = target;
           const newData = tableBlock.data.set('colMenuPos', {
             top: offsetTop,
             width: offsetWidth,
@@ -214,6 +247,25 @@ export default opt => {
         }
       }
     });
+    const self = useResizeDetecter(handler);
+    useWatch(() => {
+      handler({ target: self.current });
+    }, [isFocused]);
+    // useEffect(() => {
+    //   if (isFocused && self.current) {
+    //     const [tableBlock, rowBlock] = editor.getTablePositionByKey(nodeKey);
+    //     const isHead = tableBlock.nodes.first() === rowBlock;
+    //     if (isHead) {
+    //       const { offsetTop, offsetWidth, offsetLeft } = self.current;
+    //       const newData = tableBlock.data.set('colMenuPos', {
+    //         top: offsetTop,
+    //         width: offsetWidth,
+    //         left: offsetLeft,
+    //       });
+    //       editor.setNodeByKey(tableBlock.key, { data: newData });
+    //     }
+    //   }
+    // });
     return (
       <td {...attributes} className={alignClass} ref={self}>
         {children}

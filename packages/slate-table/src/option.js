@@ -4,7 +4,9 @@ const defaultOption = {
   cellType: 'table-row-cell',
   contentType: 'paragraph',
   className: {
-    tool: ['table-menu', 'row-menu', 'col-menu', 'plus'],
+    tool: ['table-menu', 'row-menu', 'col-menu'],
+    'icon-bar': ['table', 'row', 'col'],
+    'custom-rc': ['tooltip'],
     name: 's-table',
   },
 };
