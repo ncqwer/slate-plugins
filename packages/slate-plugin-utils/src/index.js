@@ -100,6 +100,8 @@ export const ifFlow = (...conditionActions) => (...args) => {
   }
 };
 
+export const compose = (...funcs) => funcs.reduce((acc, func) => (...args) => acc(func(...args)));
+
 export {
   useWatch,
   useDebounce,
@@ -108,3 +110,38 @@ export {
   createUseThrottle,
   useResizeDetecter,
 };
+
+export const flow = (...funcs) => (...args) =>
+  funcs.reduceRight(
+    (acc, func) => () => func(...args, acc),
+    () => {},
+  )();
+
+export const slateExtend = (...configs) => {
+  const combinedCofig = configs.reduce(
+    (accConfig, config) =>
+      Object.keys(config).reduce((acc, key) => {
+        const prev = acc[key] || [];
+        return {
+          ...acc,
+          [key]: [...prev, config[key]],
+        };
+      }, accConfig),
+    {},
+  );
+  return Object.keys(combinedCofig).reduce(
+    (acc, key) => ({
+      ...acc,
+      [key]: flow(...combinedCofig[key]),
+    }),
+    {},
+  );
+};
+
+// flow(
+//   (x,next)=>next()+'1'+x,
+//   (x,next)=>next()+'2'+x,
+//   (x,next)=>next()+'3'+x,
+//   (x,next)=>next()+'4'+x,
+//   (x,next)=>next()+'5'+x,
+//   )

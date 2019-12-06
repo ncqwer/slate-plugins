@@ -1,43 +1,60 @@
 import detectIntent from 'detect-indent';
 
-export default option => {
-  const tabSpace = ' '.repeat(option.tabLength);
-  return {
-    getClosestCodeBlockByKey(editor, key) {
-      const { document } = editor.value;
-      return document.getClosest(key, block => block.type === option.codeType);
-    },
+import { Node, Range, Editor, Path } from 'slate';
 
-    getClosestCodeBlock(editor) {
-      const { startBlock } = editor.value;
-      return editor.getClosestCodeBlockByKey(startBlock.key);
-    },
+import { Code } from './index';
 
-    getCodeLineIndentByNode(editor, codeLineBlock) {
-      const text = codeLineBlock.text;
-      return detectIntent(text).indent.replace('/t', tabSpace);
-    },
+import { CODE_LINE_TYPE, CODE_TYPE, DEFAULT_OPTION } from './constants';
 
-    getPrevCodeLineIndentByBlock(editor, block) {
-      const { document } = editor.value;
-      const parentBlock = document.getParent(block.key);
-      return parentBlock.nodes
-        .takeUntil(child => child.key === block.key)
-        .map(child => editor.getCodeLineIndentByNode(child));
-    },
+const DEFAULT_TABLENGTH = DEFAULT_OPTION.tabLength;
+const DEFAULT_TABSPACE = ' '.repeat(DEFAULT_TABLENGTH);
 
-    getFocusCharWhenCollapsed(editor) {
-      const { startText, selection } = editor.value;
-      if (!selection.isCollapsed) return [false];
-      const text = startText.text;
-      return [true, text[selection.focus.offset - 1], text[selection.focus.offset]];
-    },
+export default {
+  edgeBlock(editor) {
+    const { selection } = editor;
+    const [startPoint, endPoint] = Range.edges(selection);
+    const startBlockPath = Path.parent(startPoint.path);
+    const endBlockPath = Path.parent(endPoint.path);
+    const startBlock = Node.get(editor, startBlockPath);
+    const endBlock = Node.get(editor, endBlockPath);
+    return [
+      [startBlock, startBlockPath],
+      [endBlock, endBlockPath],
+    ];
+  },
+  isCodeBlock([element]) {
+    return element.type === CODE_TYPE;
+  },
+  isCodeLine({ type }) {
+    return type === CODE_LINE_TYPE;
+  },
+  closest(root, path) {
+    return Node.closest(root, path, Code.isCodeBlock);
+  },
 
-    getStartAndEndPointAtRange(editor, range) {
-      const isForward = range.isForward;
-      const startPoint = isForward ? range.anchor : range.focus;
-      const endPoint = isForward ? range.focus : range.anchor;
-      return [startPoint, endPoint];
-    },
-  };
+  codeLineIndent(codeLineBlock, tabSpace = DEFAULT_TABSPACE) {
+    const text = Node.text(codeLineBlock);
+    return detectIntent(text).indent.replace('/t', tabSpace);
+  },
+
+  prevCodeLineIndent(root, path, ...args) {
+    const parentBlock = Node.parent(root, path);
+    const idx = path[path.length - 1];
+    return parentBlock.children.slice(0, idx).map(child => Code.codeLineIndent(child, ...args));
+  },
+
+  focusCharWhenCollapsed(editor) {
+    const { selection } = editor;
+    if (!Range.isCollapsed(selection)) return [false];
+    const textElement = Node.get(editor, selection.focus.path);
+    const text = textElement.text;
+    return [true, text[selection.focus.offset - 1], text[selection.focus.offset]];
+  },
+
+  // getStartAndEndPointAtRange(editor, range) {
+  //   const isForward = range.isForward;
+  //   const startPoint = isForward ? range.anchor : range.focus;
+  //   const endPoint = isForward ? range.focus : range.anchor;
+  //   return [startPoint, endPoint];
+  // },
 };

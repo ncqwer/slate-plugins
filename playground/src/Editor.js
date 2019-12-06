@@ -1,53 +1,51 @@
-import React, { useState, useRef } from 'react';
-import { Editor } from 'slate-react';
-import { Value } from 'slate';
+import React, { useMemo, useCallback } from 'react';
+import { createEditor } from 'slate';
+import { Slate, Editable, withReact } from 'slate-react';
 
-import codeBase from '@zhujianshi/slate-code-base';
-import codeMath from '@zhujianshi/slate-code-math';
-import table from '@zhujianshi/slate-table';
+import codeBaseReact from '@zhujianshi/slate-code-base';
 import '@zhujianshi/slate-code-base/lib/index.css';
-import '@zhujianshi/slate-code-math/lib/index.css';
-import '@zhujianshi/slate-table/lib/index.css';
-import 'rc-tooltip/assets/bootstrap.css';
-import './Editor.css';
 
-const code = codeBase();
+import { compose, slateExtend } from '@zhujianshi/slate-plugin-utils';
 
-const plugins = [code, codeMath(), table()];
-// const plugins = [];
-const ExtendedEditor = () => {
-  const ref = useRef(null);
-  const [value, setValue] = useState(
-    Value.fromJSON({
-      document: {
-        nodes: [
-          {
-            object: 'block',
-            type: 'paragraph',
-            nodes: [
-              {
-                object: 'text',
-                text: 'A line of text in a paragraph.',
-              },
-            ],
-          },
-        ],
+const { renderElement, decorate, renderDecoration, onKeyDown } = slateExtend(codeBaseReact(), {
+  renderElement: ({ attributes, children }) => <p {...attributes}>{children}</p>,
+  decorate: () => [],
+  renderDecoration: () => {},
+  onKeyDown: () => {},
+});
+
+const HEADINGS = 10;
+const initialValue = [];
+
+// const {withCode,Code} = codeFactory();
+
+for (let h = 0; h < HEADINGS; h++) {
+  initialValue.push({
+    children: [
+      {
+        text: 'const hhh= ()=>{}',
+        marks: [],
       },
-    }),
-  );
+    ],
+    type: 'paragraph',
+  });
+}
+
+const HugeDocumentExample = () => {
+  const editor = useMemo(() => compose(withReact, createEditor)(), []);
+  const handleKeyDown = useCallback(e => onKeyDown(e, editor), [editor]);
   return (
-    <div className="editor_wrapper">
-      <Editor
-        value={value}
-        onChange={({ value }) => {
-          // console.log(value);
-          setValue(value);
-        }}
-        plugins={plugins}
-        ref={ref}
-      ></Editor>
-    </div>
+    <Slate editor={editor} defaultValue={initialValue}>
+      <Editable
+        renderElement={renderElement}
+        spellCheck
+        autoFocus
+        decorate={decorate}
+        renderDecoration={renderDecoration}
+        onKeyDown={handleKeyDown}
+      />
+    </Slate>
   );
 };
 
-export default ExtendedEditor;
+export default HugeDocumentExample;

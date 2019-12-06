@@ -21,11 +21,10 @@
     "access": "public"
   },
   "peerDependencies": {
-    "immutable": ">=3.8.2",
+    "slate": "^0.50.8",
+    "slate-react": "^0.50.11",
     "react": ">=16.4.0",
-    "react-dom": ">=16.4.0",
-    "slate": ">=0.47.8",
-    "slate-react": ">=0.22.9"
+    "react-dom": ">=16.4.0"
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
