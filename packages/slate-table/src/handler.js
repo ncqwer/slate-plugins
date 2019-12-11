@@ -68,7 +68,7 @@ export default opt => {
   function handleModE(event, editor, next) {
     const { startBlock, document } = editor.value;
     if (startBlock.type !== 'paragraph') return next();
-    if (!document.nodes.includes(startBlock)) return next();
+    // if (!document.nodes.includes(startBlock)) return next();
     const text = startBlock.text;
     const result = tableReg.exec(text);
     if (!result) return next();

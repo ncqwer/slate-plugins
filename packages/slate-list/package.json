@@ -1,12 +1,12 @@
 {
-  "name": "@zhujianshi/slate-draggable",
+  "name": "@zhujianshi/slate-list",
   "version": "0.0.1-alpha.6",
   "description": "> TODO: description",
   "author": "ncqwer <zhujianshi123@gmail.com>",
   "homepage": "https://github.com/ncqwer/slate-plugins#readme",
   "license": "MIT",
-  "main": "lib/slate-draggable.js",
-  "module": "lib/slate-draggable.es.js",
+  "main": "lib/slate-list.js",
+  "module": "lib/slate-list.es.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -26,6 +26,9 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
+  "bugs": {
+    "url": "https://github.com/ncqwer/slate-plugins/issues"
+  },
   "peerDependencies": {
     "immutable": ">=3.8.2",
     "react": ">=16.4.0",
@@ -33,12 +36,8 @@
     "slate": ">=0.47.8",
     "slate-react": ">=0.22.9"
   },
-  "bugs": {
-    "url": "https://github.com/ncqwer/slate-plugins/issues"
-  },
   "dependencies": {
     "@zhujianshi/slate-plugin-utils": "^0.0.1-alpha.6",
-    "react-dnd": "^9.5.1",
-    "react-dnd-html5-backend": "^10.0.2"
+    "is-hotkey": "^0.1.6"
   }
 }

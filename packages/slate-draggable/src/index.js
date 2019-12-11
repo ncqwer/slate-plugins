@@ -1,12 +1,20 @@
-import defaultOption from './option';
+import defaultOptions from './option';
 import render from './render';
 import command from './command';
+import query from './queries';
 
-export default opt => {
-  const realOpt = Object.assign({}, defaultOption, opt);
+import { handleBEM } from '@zhujianshi/slate-plugin-utils';
+
+export default options => {
+  const optRaw = Object.assign({}, defaultOptions, options);
+
+  const opt = Object.assign({}, optRaw, {
+    className: handleBEM(optRaw),
+  });
 
   return {
-    ...render(realOpt),
-    command: command(realOpt),
+    ...render(opt),
+    commands: command(opt),
+    queries: query(opt),
   };
 };

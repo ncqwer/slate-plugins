@@ -10,6 +10,7 @@ const handleModifier = (modifiers, itemClassName) =>
       if (typeof modifier === 'string') {
         const realName = `${itemClassName}--${modifier}`;
         return {
+          [itemClassName]: itemClassName,
           [realName]: `${itemClassName} ${realName}`,
         };
       } else if (typeof modifier === 'object' && !Array.isArray(modifier)) {
@@ -98,6 +99,19 @@ export const ifFlow = (...conditionActions) => (...args) => {
   for (const [condtion, action] of conditionActions) {
     if (condtion(...args)) return action(...args);
   }
+};
+
+export const Condition = {
+  or: (...conditionFuncs) =>
+    conditionFuncs.reduce(
+      (acc, func) => (...args) => acc(...args) || func(...args),
+      () => false,
+    ),
+  and: (...conditionFuncs) =>
+    conditionFuncs.reduce(
+      (acc, func) => (...args) => acc(...args) && func(...args),
+      () => true,
+    ),
 };
 
 export {

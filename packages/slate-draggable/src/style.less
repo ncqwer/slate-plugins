@@ -1,0 +1,28 @@
+@block-name: s-dnd;
+.@{block-name} {
+  position: relative;
+  margin-left: 1rem;
+
+  &__body {
+    &__handler {
+      position: absolute;
+      top: 0;
+      left: -1rem;
+      cursor: move;
+    }
+  }
+  &--invisible {
+    .@{block-name}__body {
+      opacity: 0;
+    }
+    &::before {
+      content: ' ';
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      border: 1px dashed gray;
+    }
+  }
+}

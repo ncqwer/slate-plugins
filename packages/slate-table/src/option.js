@@ -3,6 +3,7 @@ const defaultOption = {
   rowType: 'table-row',
   cellType: 'table-row-cell',
   contentType: 'paragraph',
+  tableParentTypes: ['list-item', 'document'],
   className: {
     tool: ['table-menu', 'row-menu', 'col-menu'],
     'icon-bar': ['table', 'row', 'col'],

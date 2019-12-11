@@ -9,14 +9,16 @@ import slateCodeBase from '../packages/slate-code-base/package.json';
 import slateCodeMath from '../packages/slate-code-math/package.json';
 import slateTable from '../packages/slate-table/package.json';
 import slateUtils from '../packages/slate-plugin-utils/package.json';
-// import slateDraggable from '../packages/slate-draggable/package.json';
+import slateList from '../packages/slate-list/package.json';
+import slateDraggable from '../packages/slate-draggable/package.json';
 
 const configurations = [
-  // ...factory(slateDraggable),
+  ...factory(slateDraggable),
   ...factory(slateUtils),
   ...factory(slateCodeBase),
   ...factory(slateTable),
   ...factory(slateCodeMath),
+  ...factory(slateList),
 ];
 
 export default configurations;

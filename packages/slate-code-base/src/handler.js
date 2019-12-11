@@ -1,7 +1,7 @@
 import isHotKey from 'is-hotkey';
 import detectIntent from 'detect-indent';
 import { Range } from 'slate';
-import { ifFlow } from '@zhujianshi/slate-plugin-utils';
+import { ifFlow, Condition } from '@zhujianshi/slate-plugin-utils';
 
 const AVALIABLE_LANGUAGES = {
   javascript: ['js', 'javascript', 'jsx'],
@@ -51,9 +51,9 @@ export default option => {
   const variableChReg = /\w/;
   const codeBlockReg = /^\s{0,3}```([\w\+]*)/;
   const spaceReg = /^\s*$/;
-  const braketsStartReg = /[{([`]/;
-  const matchedBraketsReg = /(?:\{\})|(?:\[\])|(?:\(\))|(?:``)/;
-  const braketsEndReg = /[})\]`]/;
+  const braketsStartReg = /[{([`"']/;
+  const matchedBraketsReg = /(?:\{\})|(?:\[\])|(?:\(\))|(?:``)|(?:"")|(?:'')/;
+  const braketsEndReg = /[})\]`"']/;
   const isShiftEnter = isHotKey('shift+enter');
   const isModD = isHotKey('mod+d');
   const isModShiftK = isHotKey('mod+shift+k');
@@ -67,6 +67,7 @@ export default option => {
   const isModSlash = isHotKey('mod+/');
   const isModShiftUp = isHotKey('mod+shift+up');
   const isModShiftDown = isHotKey('mod+shift+down');
+  const isSpace = isHotKey('space');
   const isCompensateBrakets = event =>
     braketsStartReg.test(event.key) || braketsEndReg.test(event.key);
   const tabSpace = ' '.repeat(option.tabLength);
@@ -74,12 +75,15 @@ export default option => {
     const { startBlock, endBlock } = editor.value;
     return startBlock.type !== option.codeLineType || endBlock.type !== option.codeLineType;
   };
-  const isEnterWhenOutCodeLineBlock = (...args) => isOutCodeLineBlock(...args) && isEnter(...args);
+  const isEnterOrSpaceWhenOutCodeLineBlock = Condition.and(
+    isOutCodeLineBlock,
+    Condition.or(isEnter, isSpace),
+  );
   return {
     onKeyDown(event, editor, next) {
       return ifFlow(
         [isModE, handleModE], // convert to code block
-        [isEnterWhenOutCodeLineBlock, handleModE],
+        [isEnterOrSpaceWhenOutCodeLineBlock, handleModE],
         [isOutCodeLineBlock, () => next()],
         [isShiftEnter, handleShiftEnter], // escape the code
         [isEnter, handleEnter],
@@ -100,9 +104,9 @@ export default option => {
   };
 
   function handleModE(event, editor, next) {
-    const { startBlock, document } = editor.value;
+    const { startBlock } = editor.value;
     if (startBlock.type !== 'paragraph') return next(); // only convert paragraph block to code block
-    if (!document.nodes.includes(startBlock)) return next();
+    // if (!document.nodes.includes(startBlock)) return next();
     const text = startBlock.text;
     const res = codeBlockReg.exec(text);
     if (!res) return next();
@@ -222,16 +226,18 @@ export default option => {
     if (event.key === '(') appendText = ')';
     if (event.key === '[') appendText = ']';
     if (event.key === '`') appendText = '`';
+    if (event.key === '"') appendText = '"';
+    if (event.key === "'") appendText = "'";
     event.preventDefault();
     if (range.isCollapsed) {
       if (braketsEndReg.test(event.key)) {
         const offset = selection.anchor.offset;
         const text = startBlock.text;
-        if (braketsEndReg.test(text[offset])) {
+        if (event.key === text[offset]) {
           // 已经存在不需要插入
           return editor.moveForward(1).focus();
         }
-        if (event.key !== '`') return editor.insertText(event.key).focus();
+        if (event.key !== appendText) return editor.insertText(event.key).focus();
       }
 
       return editor

@@ -2,7 +2,7 @@ import { Block, Text } from 'slate';
 import { Range } from 'immutable';
 
 export default opt => {
-  const { tableType, rowType, contentType, cellType } = opt;
+  const { tableType, rowType, contentType, cellType, tableParentTypes } = opt;
   const createTable = (
     rows,
     cols,
@@ -43,11 +43,12 @@ export default opt => {
     },
     insertTableByKey(editor, key, ...args) {
       const { document } = editor.value;
-      const topBlock = document.getFurthestAncestor(key);
-      const offset = document.nodes.indexOf(topBlock);
+      const parentBlock =
+        document.getClosest(key, block => tableParentTypes.includes(block.type)) || document;
+      const offset = parentBlock.getPath(key).first();
       const newTableBlock = createTable(...args);
       return editor
-        .insertNodeByKey(document.key, offset + 1, newTableBlock)
+        .insertNodeByKey(parentBlock.key, offset + 1, newTableBlock)
         .moveToEndOfNode(newTableBlock);
     },
     insertColumnBeforeAtPosition(editor, pos) {
