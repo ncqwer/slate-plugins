@@ -166,8 +166,6 @@ export default option => {
     if (!expected && startBias === 0) {
       // 尝试向前匹配
       [startBias, endBias] = getSingleWordBias(text, variableChReg, offset - 1); // 向前匹配
-      /* eslint-disable no-console*/
-      console.log(`向前匹配:start${startBias}:endBias${endBias}`);
       return editor.moveStartBackward(startBias + 1);
     }
     return editor.moveStartBackward(startBias).moveEndForward(endBias + 1);
@@ -198,8 +196,6 @@ export default option => {
     const preIndents = editor.getPrevCodeLineIndentByBlock(startBlock);
     const avaliableIndent = preIndents.reverse().find(indent => indent.length < nowIndent.length);
     if (!avaliableIndent && avaliableIndent !== '') return next();
-    console.log(preIndents);
-    console.log(`avaliableIndent:${avaliableIndent.length}`);
     const path = document.getPath(startBlock.getFirstText());
     return editor.setTextByPath(path, avaliableIndent);
   }

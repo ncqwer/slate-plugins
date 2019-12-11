@@ -16,7 +16,6 @@ export default opt => {
     const { node, children, editor } = props;
     const [moveNode] = useThrottle((source, target) => {
       if (source.key === target.key) return;
-      console.log('heavy task');
       return editor.moveNodeBeforeAnotherNode(source, target);
     }, 500);
     // const moveNode = (source, target) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 
 import {
   Icon,
@@ -176,7 +176,6 @@ export default opt => {
         const menuTop = offsetTop;
         const menuLeft = offsetLeft + offsetWidth;
         const isInHead = tableBlock.nodes.first().key === nodeKey;
-        console.log('heavy task!!!');
         const newTableData = tableBlock.data
           .set('rowMenuPos', {
             top: menuTop,
@@ -233,7 +232,6 @@ export default opt => {
     const alignClass = node.data.get('text-align');
     const [handler] = useDebounce(({ target }) => {
       if (isFocused && self.current) {
-        console.log('heavy task col;');
         const [tableBlock, rowBlock] = editor.getTablePositionByKey(nodeKey);
         const isHead = tableBlock.nodes.first() === rowBlock;
         if (isHead) {

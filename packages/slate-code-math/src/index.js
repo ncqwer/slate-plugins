@@ -22,9 +22,6 @@ const createMathPlugin = opt => {
   function normalize(editor, error) {
     if (error.code === 'child_type_invalid') {
       const { node, child } = error;
-      /* eslint-disable no-console*/
-      console.log(node);
-      console.log(child);
       if (child.type === 'paragraph') return editor.moveNodeAfterAnotherNode(child, node);
     }
   }
