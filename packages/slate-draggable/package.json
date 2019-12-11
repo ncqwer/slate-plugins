@@ -1,6 +1,6 @@
 {
   "name": "@zhujianshi/slate-draggable",
-  "version": "0.0.1-alpha.6",
+  "version": "0.0.1-alpha.7",
   "description": "> TODO: description",
   "author": "ncqwer <zhujianshi123@gmail.com>",
   "homepage": "https://github.com/ncqwer/slate-plugins#readme",
@@ -37,7 +37,7 @@
     "url": "https://github.com/ncqwer/slate-plugins/issues"
   },
   "dependencies": {
-    "@zhujianshi/slate-plugin-utils": "^0.0.1-alpha.6",
+    "@zhujianshi/slate-plugin-utils": "^0.0.1-alpha.7",
     "react-dnd": "^9.5.1",
     "react-dnd-html5-backend": "^10.0.2"
   }
