@@ -5,7 +5,7 @@ import { ifFlow } from '@zhujianshi/slate-plugin-utils';
 
 export default opt => {
   const { listItemType } = opt;
-  const listReg = /^(\s{0,3}((?:\d+\.)|(?:-\s?\[x?\])|-)\s{0,3})\S/;
+  const listReg = /^(\s{0,3}((?:\d+\.)|(?:-\s?\[x?\])|(?:-|\*))\s{0,3})/;
   const spaceReg = /^\s*$/;
   const isSpace = isHotKey('space');
   const isModEnter = isHotKey('mod+enter');
@@ -98,7 +98,8 @@ export default opt => {
 
   function handleBackspace(event, editor, next) {
     const { startBlock, document, selection } = editor.value;
-    if (!selection.isCollapsed || selection.focus.offset !== 0) return next();
+    if (!selection.isCollapsed || selection.focus.path.last() !== 0 || selection.focus.offset !== 0)
+      return next();
     if (startBlock.type !== 'paragraph') return next();
     const listItem = document.getParent(startBlock.key);
     if (!listItem || listItem.type !== listItemType) return next();

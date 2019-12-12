@@ -1,7 +1,7 @@
 export default opt => {
   const { listItemType } = opt;
   const orderListReg = /^(\d+).$/;
-  const unorderListReg = /^-$/;
+  const unorderListReg = /^[-\*]$/;
   const taskListReg = /^-\s?\[(x)?\]$/;
   return {
     wrapListItem(editor, typeFlag) {

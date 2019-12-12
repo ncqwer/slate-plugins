@@ -16,8 +16,8 @@ import 'rc-tooltip/assets/bootstrap.css';
 import './Editor.css';
 
 const code = codeBase();
-
-const plugins = [Draggable(), code, codeMath(), table(), list()];
+const List = list();
+const plugins = [code, codeMath(), table(), List];
 // const plugins = [code, codeMath(), table()];
 // const plugins = [];
 const ExtendedEditor = () => {
