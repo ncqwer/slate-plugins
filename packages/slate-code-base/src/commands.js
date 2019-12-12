@@ -23,6 +23,17 @@ export default option => {
         ],
       });
     },
+    insertCodeLine(editor, codeText) {
+      return editor.withoutNormalizing(() => {
+        codeText.split('\n').forEach(text => {
+          editor.insertBlock({
+            object: 'block',
+            type: option.codeLineType,
+            nodes: [{ object: 'text', text }],
+          });
+        });
+      });
+    },
     moveNodeAfterAnotherNode(editor, node, anotherNode) {
       const parentBlock = editor.value.document.getParent(anotherNode.key);
       const offset = parentBlock.nodes.indexOf(anotherNode);

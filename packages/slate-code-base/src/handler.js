@@ -1,6 +1,7 @@
 import isHotKey from 'is-hotkey';
 import detectIntent from 'detect-indent';
 import { Range } from 'slate';
+import { getEventTransfer } from 'slate-react';
 import { ifFlow, Condition } from '@zhujianshi/slate-plugin-utils';
 
 const AVALIABLE_LANGUAGES = {
@@ -101,7 +102,20 @@ export default option => {
         [() => true, () => next()], // default condition
       )(event, editor, next);
     },
+    onPaste(event, editor, next) {
+      return ifFlow([isOutCodeLineBlock, () => next()], [() => true, handleCopy])(
+        event,
+        editor,
+        next,
+      );
+    },
   };
+
+  function handleCopy(event, editor, next) {
+    const result = getEventTransfer(event);
+    if (result.type !== 'text') return next();
+    return editor.insertCodeLine(result.text);
+  }
 
   function handleModE(event, editor, next) {
     const { startBlock } = editor.value;
