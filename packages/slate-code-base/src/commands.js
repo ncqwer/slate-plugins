@@ -6,7 +6,6 @@ const insertCharAtOffset = (str, offset, ch) => {
 
 export default option => {
   const commentReg = /^(\s*)\/\//;
-  // const emptyReg = /^(\s*)/;
   const tabSpace = ' '.repeat(option.tabLength);
   return {
     insertCodeBlock(editor, language, codeText = 'n') {
