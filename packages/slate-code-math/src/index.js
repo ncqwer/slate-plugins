@@ -2,8 +2,10 @@ import commands from './commands';
 import queries from './queries';
 import handler from './handler';
 import render from './render';
+import defaultOption from './option';
 
-const createMathPlugin = opt => {
+const createMathPlugin = option => {
+  const opt = Object.assign({}, defaultOption, option);
   const schema = {
     blocks: {
       math: {

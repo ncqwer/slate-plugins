@@ -33,8 +33,7 @@
   "dependencies": {
     "@zhujianshi/slate-code-base": "^0.0.1-alpha.10",
     "@zhujianshi/slate-plugin-utils": "^0.0.1-alpha.7",
-    "is-hotkey": "^0.1.6",
-    "katex": "^0.11.1"
+    "is-hotkey": "^0.1.6"
   },
   "gitHead": "b980faeb7dc882f8cafaccb75c66bc0939b9eeb4"
 }
